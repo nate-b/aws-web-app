@@ -1,0 +1,59 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: >
+  Practice template used to create the Wildrydes stack
+
+Metadata:
+  Module1:
+    Description: "Static Web Hosting"
+  Module2:
+    Description: "User Management"
+  Module3:
+    Description: "Servless Service Backend"
+  Module4:
+    Description: "RESTful APIs"
+
+#Parameters:
+#  set of parameters
+#
+#Mappings:
+#  set of mappings
+#
+#Conditions:
+#  set of conditions
+
+#Transform: "AWS::Serverless-2016-10-31"
+
+Resources:
+  Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: myrydes-nate-baker
+      Tags:
+        -
+          Key: Project
+          Value: myrydes
+      WebsiteConfiguration:
+        IndexDocument: index.html
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: myrydes-nate-baker
+      PolicyDocument:
+        {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": "*",
+                    "Action": "s3:GetObject",
+                    "Resource": "arn:aws:s3:::myrydes-nate-baker/*"
+                }
+            ]
+        }
+    DependsOn: Bucket
+
+
+#Outputs:
+#  set of outputs
