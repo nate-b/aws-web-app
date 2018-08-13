@@ -70,5 +70,10 @@ Resources:
     DependsOn: UserPool
 
 
-#Outputs:
-#  set of outputs
+Outputs:
+  userPoolId:
+    Description: Use this generated ID in website/js/config.js
+    Value: !Ref UserPool
+  userPoolClientId:
+    Description: Use this generated ID in website/js/config.js
+    Value: !Ref UserPoolClient

@@ -63,3 +63,9 @@ If you want to remove config.js from version control.
 ```
 git update-index --assume-unchanged website/js/config.js
 ```
+
+To check your CloudFormation stack output (for output values).  You can also view the Outputs in the AWS Console.
+
+```
+aws cloudformation describe-stacks --stack-name myrydes-nate-baker
+```
