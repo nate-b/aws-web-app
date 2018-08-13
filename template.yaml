@@ -53,6 +53,21 @@ Resources:
             ]
         }
     DependsOn: Bucket
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      AutoVerifiedAttributes:
+        - email
+      UserPoolName: MyRydes
+      UserPoolTags:
+        Project: myrydes
+  UserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+        ClientName: MyRydesWebApp
+        GenerateSecret: False
+        UserPoolId: !Ref UserPool
+    DependsOn: UserPool
 
 
 #Outputs:

@@ -36,14 +36,30 @@ Deploy to AWS.
 aws cloudformation deploy --template-file aws-web-app-output.yaml --stack-name myrydes-nate-baker --capabilities CAPABILITY_NAMED_IAM
 ```
 
-Upload the static website files to the S3 bucket
+Upload the static website files to the S3 bucket.
 
 ```
 aws s3 sync ./website s3://myrydes-nate-baker
 ```
+
+Update website/js/config.js with your environment-specific values.  For now you can find these in the AWS console:
+  * userPoolId
+  * userPoolClientId
+  * region
+
+```
+aws s3 sync ./website s3://myrydes-nate-baker
+```
+
+Follow the last step at [this link](https://aws.amazon.com/getting-started/projects/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito/module-2/) to test your implementation.
 
 ### Next steps
 
 
 ### Notes
 
+If you want to remove config.js from version control.
+
+```
+git update-index --assume-unchanged website/js/config.js
+```
