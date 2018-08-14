@@ -53,7 +53,12 @@ Update website/js/config.js with your environment-specific values and push the c
 aws s3 sync ./website s3://myrydes-nate-baker
 ```
 
-Follow the last step at [this link](https://aws.amazon.com/getting-started/projects/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito/module-2/) to test your implementation.
+Follow the last step at [this link](https://aws.amazon.com/getting-started/projects/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito/module-2/) to test your user pool configuration.
+
+Follow the last step at [this link](https://aws.amazon.com/getting-started/projects/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito/module-3/) to manually test your Lambda function.
+
+
+## Notes
 
 ### <a id="stack-output"></a>How to check your CloudFormation stack output.
 You can view the Outputs in the AWS Console or use the command below.
@@ -62,12 +67,23 @@ You can view the Outputs in the AWS Console or use the command below.
 aws cloudformation describe-stacks --stack-name myrydes-nate-baker
 ```
 
-### Notes
-
 If you want to remove config.js from version control.
 
 ```
 git update-index --assume-unchanged website/js/config.js
+```
+
+### Cleanup
+
+Empty the S3 bucket (objects in the bucket will prevent stack deletion).
+
+```
+aws s3 rm s3://myrydes-nate-baker --recursive
+```
+
+Then delete the stack.
+```
+aws cloudformation delete-stack --stack-name myrydes-nate-baker
 ```
 
 ### Next steps
