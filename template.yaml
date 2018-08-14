@@ -71,6 +71,9 @@ Resources:
 
 
 Outputs:
+  WebsiteURL:
+    Description: Use this endpoint to validate your static website
+    Value: !GetAtt Bucket.WebsiteURL
   userPoolId:
     Description: Use this generated ID in website/js/config.js
     Value: !Ref UserPool

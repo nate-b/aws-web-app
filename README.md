@@ -22,7 +22,7 @@ AWS account
 Clone this repository.
 
 ```
-git clone https://github.com/PointSource/aws-web-app
+git clone https://github.com/nate-b/aws-web-app
 ```
 
 Run package command.  Note the s3 bucket is just a temporary location to store the yaml to execute.  It may not even be persisted (need to confirm).
@@ -42,10 +42,12 @@ Upload the static website files to the S3 bucket.
 aws s3 sync ./website s3://myrydes-nate-baker
 ```
 
-Update website/js/config.js with your environment-specific values.  For now you can find these in the AWS console:
-  * userPoolId
-  * userPoolClientId
-  * region
+Validate your website using the url found in the stack output ([see "How to check your CloudFormation stack output" below](#stack-output)).
+
+Update website/js/config.js with your environment-specific values and push the changes to your S3 bucket.
+  * userPoolId - from stack output
+  * userPoolClientId - from stack output
+  * region - your default region
 
 ```
 aws s3 sync ./website s3://myrydes-nate-baker
@@ -53,8 +55,12 @@ aws s3 sync ./website s3://myrydes-nate-baker
 
 Follow the last step at [this link](https://aws.amazon.com/getting-started/projects/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito/module-2/) to test your implementation.
 
-### Next steps
+### <a id="stack-output"></a>How to check your CloudFormation stack output.
+You can view the Outputs in the AWS Console or use the command below.
 
+```
+aws cloudformation describe-stacks --stack-name myrydes-nate-baker
+```
 
 ### Notes
 
@@ -64,8 +70,4 @@ If you want to remove config.js from version control.
 git update-index --assume-unchanged website/js/config.js
 ```
 
-To check your CloudFormation stack output (for output values).  You can also view the Outputs in the AWS Console.
-
-```
-aws cloudformation describe-stacks --stack-name myrydes-nate-baker
-```
+### Next steps
