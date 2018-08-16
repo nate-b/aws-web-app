@@ -80,8 +80,8 @@ Delete the stack:
 aws cloudformation delete-stack --stack-name myrydes-nate-baker
 ```
 
-Remove the stack artifacts:
+Remove the stack artifacts.  Do NOT run this command on your website s3 bucket or you won't be able to delete the stack:
 ```
-aws s3 rm s3://myrydes-nate-baker --recursive temp-stack-artifacts-nate-baker
+aws s3 rb s3://temp-stack-artifacts-nate-baker --force
 ```
 ### Next steps
