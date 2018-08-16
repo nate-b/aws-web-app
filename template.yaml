@@ -255,6 +255,9 @@ Outputs:
   userPoolClientId:
     Description: Use this generated ID in website/js/config.js
     Value: !Ref UserPoolClient
+  region:
+    Description: Use this config value in website/js/config.js
+    Value: !Ref "AWS::Region"
   invokeURL:
     Description: Use this generated URL in website/js/config.js
     Value: !Join ["", ["https://", !Ref RESTAPI, ".execute-api.", !Ref "AWS::Region", ".amazonaws.com/", !Ref ProdStage] ]

@@ -37,7 +37,7 @@ aws cloudformation deploy --template-file aws-web-app-output.yaml --stack-name m
 [View your stack output](#stack-output) and update website/js/config.js with your environment-specific values:
   * userPoolId - from stack output
   * userPoolClientId - from stack output
-  * region - your default region
+  * region - your default region from stack output
 
 
 Upload the static website files and your modified config.js to the S3 bucket:
