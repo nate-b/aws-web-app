@@ -19,71 +19,69 @@ AWS account
 
 ## Getting Started
 
-Clone this repository.
-
+Clone this repository:
 ```
 git clone https://github.com/nate-b/aws-web-app
 ```
 
-Run package command.  Note the s3 bucket is just a temporary location to store the yaml to execute.  It may not even be persisted (need to confirm).
+Run package command.  The s3 bucket specified is just a location to store the package artifacts used by your stack:
 ```
-aws cloudformation package --template-file template.yaml --output-template-file aws-web-app-output.yaml --s3-bucket cloudformation-templates-nate-baker
+aws cloudformation package --template-file template.yaml --output-template-file aws-web-app-output.yaml --s3-bucket temp-stack-artifacts-nate-baker
 ```
 
-Deploy to AWS.
-
+Deploy to AWS:
 ```
 aws cloudformation deploy --template-file aws-web-app-output.yaml --stack-name myrydes-nate-baker --capabilities CAPABILITY_NAMED_IAM
 ```
 
-Upload the static website files to the S3 bucket.
-
-```
-aws s3 sync ./website s3://myrydes-nate-baker
-```
-
-Validate your website using the url found in the stack output ([see "How to check your CloudFormation stack output" below](#stack-output)).
-
-Update website/js/config.js with your environment-specific values and push the changes to your S3 bucket.
+[View your stack output](#stack-output) and update website/js/config.js with your environment-specific values:
   * userPoolId - from stack output
   * userPoolClientId - from stack output
   * region - your default region
 
+
+Upload the static website files and your modified config.js to the S3 bucket:
 ```
 aws s3 sync ./website s3://myrydes-nate-baker
 ```
 
-Follow the last step at [this link](https://aws.amazon.com/getting-started/projects/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito/module-2/) to test your user pool configuration.
+## Validate Your Environment
 
-Follow the last step at [this link](https://aws.amazon.com/getting-started/projects/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito/module-3/) to manually test your Lambda function.
+Browse to the static website using the url found in your [stack output](#stack-output).
 
+Register a new user to test your user pool configuration by following the [last step here](https://aws.amazon.com/getting-started/projects/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito/module-2/).
+
+Manually test your Lambda function at the AWS Console by following the [last step here](https://aws.amazon.com/getting-started/projects/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito/module-3/).
+
+Verify that the API gateway is properly surfacing your Lambda function to the web app by following the [last step here](https://aws.amazon.com/getting-started/projects/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito/module-4/).
 
 ## Notes
 
 ### <a id="stack-output"></a>How to check your CloudFormation stack output.
-You can view the Outputs in the AWS Console or use the command below.
-
+You can view the Outputs in the AWS Console or use the command below:
 ```
 aws cloudformation describe-stacks --stack-name myrydes-nate-baker
 ```
 
-If you want to remove config.js from version control.
-
+If you want to remove config.js from version control:
 ```
 git update-index --assume-unchanged website/js/config.js
 ```
 
 ### Cleanup
 
-Empty the S3 bucket (objects in the bucket will prevent stack deletion).
-
+Empty the S3 bucket (objects in the bucket will prevent stack deletion):
 ```
 aws s3 rm s3://myrydes-nate-baker --recursive
 ```
 
-Then delete the stack.
+Delete the stack:
 ```
 aws cloudformation delete-stack --stack-name myrydes-nate-baker
 ```
 
+Remove the stack artifacts:
+```
+aws s3 rm s3://myrydes-nate-baker --recursive temp-stack-artifacts-nate-baker
+```
 ### Next steps
