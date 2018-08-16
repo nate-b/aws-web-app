@@ -75,7 +75,7 @@ Empty the S3 bucket (objects in the bucket will prevent stack deletion):
 aws s3 rm s3://myrydes-nate-baker --recursive
 ```
 
-Delete the stack:
+Delete the stack.  This command returns really fast -- you can check the AWS Console -> CloudFormation stack events to follow progress and see whether the stack was fully deleted.
 ```
 aws cloudformation delete-stack --stack-name myrydes-nate-baker
 ```
@@ -84,4 +84,10 @@ Remove the stack artifacts.  Do NOT run this command on your website s3 bucket o
 ```
 aws s3 rb s3://temp-stack-artifacts-nate-baker --force
 ```
-### Next steps
+### Possible Next steps
+
+Convert CF YAML template to AWS SAM.
+
+Break up into multiple stacks as a practice exercise.
+
+Create a matching TerraForm template.
