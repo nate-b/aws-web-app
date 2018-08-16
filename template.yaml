@@ -56,7 +56,6 @@ Resources:
                 }
             ]
         }
-    DependsOn: Bucket
 
   UserPool:
     Type: AWS::Cognito::UserPool
@@ -73,7 +72,6 @@ Resources:
         ClientName: MyRydesWebApp
         GenerateSecret: False
         UserPoolId: !Ref UserPool
-    DependsOn: UserPool
 
   DynamoDBTable:
     Type: AWS::DynamoDB::Table
@@ -144,7 +142,6 @@ Resources:
         -
           Key: Project
           Value: myrydes
-    DependsOn: LambdaExecutionRole
 
   RESTAPI:
     Type: AWS::ApiGateway::RestApi
