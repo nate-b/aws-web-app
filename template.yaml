@@ -178,7 +178,7 @@ Resources:
       Action: lambda:invokeFunction
       FunctionName: !Ref LambdaFunction
       Principal: apigateway.amazonaws.com
-      SourceArn: !Join ["",["arn:aws:execute-api:us-east-1:", !Ref "AWS::AccountId", ":", !Ref RESTAPI,"/*"]]
+      SourceArn: !Join ["",["arn:aws:execute-api:", !Ref "AWS::Region", ":", !Ref "AWS::AccountId", ":", !Ref RESTAPI,"/*"]]
 
   OptionsMethod:
     Type: AWS::ApiGateway::Method
@@ -221,7 +221,7 @@ Resources:
         IntegrationHttpMethod: POST
         PassthroughBehavior: WHEN_NO_MATCH
         Type: AWS_PROXY
-        Uri: !Join ["", ["arn:aws:apigateway:", "us-east-1", ":lambda:path/2015-03-31/functions/", !GetAtt LambdaFunction.Arn, "/invocations"] ]
+        Uri: !Join ["", ["arn:aws:apigateway:", !Ref "AWS::Region", ":lambda:path/2015-03-31/functions/", !GetAtt LambdaFunction.Arn, "/invocations"] ]
       MethodResponses:
         -
           ResponseModels:
@@ -260,4 +260,4 @@ Outputs:
     Value: !Ref UserPoolClient
   invokeURL:
     Description: Use this generated URL in website/js/config.js
-    Value: !Join ["", ["https://", !Ref RESTAPI, ".execute-api.", "us-east-1", ".amazonaws.com/", !Ref ProdStage] ]
+    Value: !Join ["", ["https://", !Ref RESTAPI, ".execute-api.", !Ref "AWS::Region", ".amazonaws.com/", !Ref ProdStage] ]
