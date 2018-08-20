@@ -24,25 +24,31 @@ Clone this repository:
 git clone https://github.com/nate-b/aws-web-app
 ```
 
-Run package command.  The s3 bucket specified is just a location to store the package artifacts used by your stack:
+Create a S3 bucket to hold your temporary stack artifacts.  Specify a unique bucket name, e.g., "temp-bucket-<your-name>":
 ```
-aws cloudformation package --template-file template.yaml --output-template-file aws-web-app-output.yaml --s3-bucket temp-stack-artifacts-nate-baker
+aws s3 mb s3://temp-bucket-<YOUR-NAME>
+```
+
+Run package command.  Use the same bucket that you created in the previous step, e.g., "temp-bucket-<your-name>":
+```
+aws cloudformation package --template-file template.yaml --output-template-file aws-web-app-output.yaml --s3-bucket temp-bucket-<YOUR-NAME>
 ```
 
 Deploy to AWS:
 ```
-aws cloudformation deploy --template-file aws-web-app-output.yaml --stack-name myrydes-nate-baker --capabilities CAPABILITY_NAMED_IAM
+aws cloudformation deploy --template-file aws-web-app-output.yaml --stack-name wildrydes-stack --capabilities CAPABILITY_NAMED_IAM
 ```
 
 [View your stack output](#stack-output) and update website/js/config.js with your environment-specific values:
   * userPoolId - from stack output
   * userPoolClientId - from stack output
   * region - your default region from stack output
+  * invokeURL - from stack output
 
 
-Upload the static website files and your modified config.js to the S3 bucket:
+Upload the static website files and your modified config.js to the S3 bucket.  You can find the bucket name in your [stack output](#stack-output):
 ```
-aws s3 sync ./website s3://myrydes-nate-baker
+aws s3 sync ./website s3://<YOUR-S3-BUCKET>
 ```
 
 ## Validate Your Environment
@@ -60,7 +66,7 @@ Verify that the API gateway is properly surfacing your Lambda function to the we
 ### <a id="stack-output"></a>How to check your CloudFormation stack output.
 You can view the Outputs in the AWS Console or use the command below:
 ```
-aws cloudformation describe-stacks --stack-name myrydes-nate-baker
+aws cloudformation describe-stacks --stack-name wildrydes-stack
 ```
 
 If you want to remove config.js from version control:
@@ -70,19 +76,19 @@ git update-index --assume-unchanged website/js/config.js
 
 ### Cleanup
 
-Empty the S3 bucket (objects in the bucket will prevent stack deletion):
+Empty the S3 bucket (objects in the bucket will prevent stack deletion).  You can find the bucket name in your [stack output](#stack-output):
 ```
-aws s3 rm s3://myrydes-nate-baker --recursive
+aws s3 rm s3://<YOUR-S3-BUCKET> --recursive
 ```
 
 Delete the stack.  This command returns really fast -- you can check the AWS Console -> CloudFormation stack events to follow progress and see whether the stack was fully deleted.
 ```
-aws cloudformation delete-stack --stack-name myrydes-nate-baker
+aws cloudformation delete-stack --stack-name wildrydes-stack
 ```
 
 Remove the stack artifacts.  Do NOT run this command on your website s3 bucket or you won't be able to delete the stack:
 ```
-aws s3 rb s3://temp-stack-artifacts-nate-baker --force
+aws s3 rb s3://temp-bucket-<YOUR-NAME> --force
 ```
 ### Possible Next steps
 

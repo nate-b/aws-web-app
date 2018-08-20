@@ -30,11 +30,10 @@ Resources:
   Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: myrydes-nate-baker
       Tags:
         -
           Key: Project
-          Value: myrydes
+          Value: wildrydes
       WebsiteConfiguration:
         IndexDocument: index.html
 
@@ -62,14 +61,14 @@ Resources:
     Properties:
       AutoVerifiedAttributes:
         - email
-      UserPoolName: MyRydes
+      UserPoolName: WildRydes
       UserPoolTags:
-        Project: myrydes
+        Project: wildrydes
 
   UserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
-        ClientName: MyRydesWebApp
+        ClientName: WildRydesWebApp
         GenerateSecret: False
         UserPoolId: !Ref UserPool
 
@@ -87,11 +86,11 @@ Resources:
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
-      TableName: MyRides
+      TableName: WildRides
       Tags:
         -
           Key: Project
-          Value: myrydes
+          Value: wildrydes
 
   LambdaExecutionRole:
     Type: AWS::IAM::Role
@@ -124,7 +123,7 @@ Resources:
                     }
                 ]
             }
-      RoleName: MyRydesLambda
+      RoleName: WildRydesLambda
     DependsOn: DynamoDBTable
 
   LambdaFunction:
@@ -134,29 +133,29 @@ Resources:
       Environment:
         Variables:
           TABLE_NAME: !Ref DynamoDBTable
-      FunctionName: RequestMyUnicorn
+      FunctionName: RequestUnicorn
       Handler: requestUnicorn.handler
       Role: !GetAtt LambdaExecutionRole.Arn
       Runtime: nodejs6.10
       Tags:
         -
           Key: Project
-          Value: myrydes
+          Value: wildrydes
 
   RESTAPI:
     Type: AWS::ApiGateway::RestApi
     Properties:
-      Description: "Provides endpoint for Lambda RequestMyUnicorn function"
+      Description: "Provides endpoint for Lambda RequestUnicorn function"
       EndpointConfiguration:
         Types:
           - EDGE
-      Name: MyRydes
+      Name: WildRydes
 
   CognitoAuthorizer:
     Type: AWS::ApiGateway::Authorizer
     Properties:
       IdentitySource: "method.request.header.Authorization"
-      Name: MyRydes
+      Name: WildRydes
       ProviderARNs:
         - !GetAtt UserPool.Arn
       RestApiId: !Ref RESTAPI
@@ -261,3 +260,6 @@ Outputs:
   invokeURL:
     Description: Use this generated URL in website/js/config.js
     Value: !Join ["", ["https://", !Ref RESTAPI, ".execute-api.", !Ref "AWS::Region", ".amazonaws.com/", !Ref ProdStage] ]
+  BucketName:
+    Description: The generated bucket that contains your web resources
+    Value: !Ref Bucket
