@@ -3,7 +3,7 @@ AWS Web App
 
 Resources for quickly deploying the AWS Serverless Web Application.  Mostly this was used to teach myself AWS tools, including CloudFormation, Lambda, API Gateway, and more.
 
-[Build a Serverless Web Application](https://aws.amazon.com/getting-started/projects/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito/)
+[Steps for manually building the same app](https://aws.amazon.com/getting-started/projects/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito/)
 
 ## Software Requirements
 
@@ -15,7 +15,7 @@ You'll need the following software installed to get started.
 
 AWS account
 
-[AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-multiple-profiles.html): If you have multiple AWS profiles, you must specify which profile to use by appending the parameter "--profile <profile_name>" to the AWS CLI commands below.
+[AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-multiple-profiles.html): If you have multiple AWS profiles, you must specify which profile to use by appending the parameter "--profile &lt;PROFILE-NAME&gt;" to the AWS CLI commands below.
 
 ## Getting Started
 
@@ -24,12 +24,12 @@ Clone this repository:
 git clone https://github.com/nate-b/aws-web-app
 ```
 
-Create a S3 bucket to hold your temporary stack artifacts.  Specify a unique bucket name, e.g., "temp-bucket-<your-name>":
+Create a S3 bucket to hold your temporary stack artifacts.  Specify a unique bucket name, e.g., "temp-bucket-&lt;YOUR-NAME&gt;":
 ```
 aws s3 mb s3://temp-bucket-<YOUR-NAME>
 ```
 
-Run package command.  Use the same bucket that you created in the previous step, e.g., "temp-bucket-<your-name>":
+Run package command.  Use the same bucket that you created in the previous step, e.g., "temp-bucket-&lt;YOUR-NAME&gt;":
 ```
 aws cloudformation package --template-file template.yaml --output-template-file aws-web-app-output.yaml --s3-bucket temp-bucket-<YOUR-NAME>
 ```
